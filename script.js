@@ -7,6 +7,7 @@ const futureWeatherEl = document.querySelector("#future-weather");
 
 let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
+
 function displayCurrentWeather(data) {
     const cityName = data.name;
     const date = new Date(data.dt * 1000).toLocaleDateString();
@@ -42,3 +43,42 @@ function displayFutureWeather(data) {
     futureWeatherEl.innerHTML = html;
 }
 
+function displayWeather(city) {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${API_KEY}`;
+    fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+        displayCurrentWeather(data);
+        const apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${API_KEY}`;
+        fetch(apiForecastUrl)
+        .then(response => response.json())
+        .then(data => displayFutureWeather(data))
+        .catch(error => crossOriginIsolated.log(error));
+    })
+    .catch(error => console.log(error));
+}
+
+function addCityToHistory(city) {
+    if (searchHistory.indexOf(city) === -1) {
+        searchHistory.push(city);
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+        const buttonEl = document.createElement("button");
+        buttonEl.textContent = city;
+        buttonEl.addEventListener("click", function () {
+            displayWeather(city);
+        });
+        searchHistoryEl.appendChild(buttonEl);
+    }
+}
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+    const city = cityInputEl.ariaValueMax.trim();
+    if (city) {
+        displayWeather(city);
+        addCityToHistory(city);
+        cityInputEl.value = "";
+    }
+}
+
+console.log('hello world');
