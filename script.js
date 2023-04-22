@@ -80,3 +80,13 @@ function handleFormSubmit(event) {
         cityInputEl.value = "";
     }
 }
+
+for (let i = 0; i < searchHistory.length; i++) {
+    const buttonEl = document.createElement("button");
+    buttonEl.textContent = searchHistory[i];
+    buttonEl.addEventListener("click", function () {
+      displayWeather(searchHistory[i]);
+    });
+    searchHistoryEl.appendChild(buttonEl);
+  }
+  
