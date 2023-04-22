@@ -90,3 +90,14 @@ for (let i = 0; i < searchHistory.length; i++) {
     searchHistoryEl.appendChild(buttonEl);
   }
   
+  const clearHistoryBtn = document.querySelector("#clear-history-btn");
+  clearHistoryBtn.addEventListener("click", clearSearchHistory);
+
+  function clearSearchHistory() {
+    searchHistory = [];
+    localStorage.removeItem("searchHistory");
+
+    while (searchHistoryEl.firstChild) {
+        searchHistoryEl.removeChild(searchHistoryEl.firstChild);
+    }
+  }
