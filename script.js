@@ -1,12 +1,12 @@
 const API_KEY = "5694d1137e39485f19522244816125fa";
 const cityFormEl = document.querySelector("#city-form");
-const cityInputEl = document.querySelector("#city");
+const cityInputEl = document.querySelector("#city-input");
 const searchHistoryEl = document.querySelector("#search-history");
 const currentWeatherEl = document.querySelector("#current-weather");
 const futureWeatherEl = document.querySelector("#future-weather");
 
 let searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-
+cityFormEl.addEventListener("submit", handleFormSubmit);
 
 function displayCurrentWeather(data) {
     const cityName = data.name;
@@ -32,7 +32,7 @@ function displayFutureWeather(data) {
         const humidity = data.list[i].main.humidity;
         const windSpeed = data.list[i].wind.speed;
 
-        html+=
+        html +=
         `<div class="future-weather-item">
         <h3>${date} <img src="http://openweathermap.org/img/wn/${icon}.png" alt="${data.list[i].weather[0].description}" /></h3>
         <p>Temperature: ${temperature} &#8457;</p>
@@ -53,7 +53,7 @@ function displayWeather(city) {
         fetch(apiForecastUrl)
         .then(response => response.json())
         .then(data => displayFutureWeather(data))
-        .catch(error => crossOriginIsolated.log(error));
+        .catch(error => console.log(error));
     })
     .catch(error => console.log(error));
 }
@@ -73,12 +73,10 @@ function addCityToHistory(city) {
 
 function handleFormSubmit(event) {
     event.preventDefault();
-    const city = cityInputEl.ariaValueMax.trim();
+    const city = cityInputEl.value.trim();
     if (city) {
         displayWeather(city);
         addCityToHistory(city);
         cityInputEl.value = "";
     }
 }
-
-console.log('hello world');
