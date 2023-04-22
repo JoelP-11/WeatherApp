@@ -4,3 +4,4 @@ This weather application uses a server side api to be able to find the weather f
 
 WeatherApp URL - https://joelp-11.github.io/WeatherApp/
 
+<img width="1432" alt="Screen Shot 2023-04-21 at 8 08 26 PM" src="https://user-images.githubusercontent.com/123904046/233758812-2e338630-5698-4778-bf43-e663f4e79c7d.png">
